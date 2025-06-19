@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface VideoSliderProps {
@@ -13,6 +13,11 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls }) => {
   const startX = useRef(0);
   const dragDistance = useRef(0);
   const isMobile = window.innerWidth < 768; // Simple mobile detection
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsMuted(false), 500);
+    return () => clearTimeout(timer);
+  }, [currentVideoIndex]);
 
   const handleThumbnailClick = (index: number) => {
     setCurrentVideoIndex(index);
@@ -46,10 +51,6 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls }) => {
     const video = e.currentTarget;
     const { videoWidth, videoHeight } = video;
     setOrientation(videoWidth >= videoHeight ? 'landscape' : 'portrait');
-  };
-
-  const toggleMute = () => {
-    setIsMuted(!isMuted);
   };
 
   // Dynamic container styles based on orientation and screen size
@@ -110,9 +111,8 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls }) => {
         {videoUrls.map((url, index) => (
           <motion.div
             key={index}
-            className={`cursor-pointer border-4 ${
-              currentVideoIndex === index ? 'border-white' : 'border-transparent'
-            } rounded-md overflow-hidden flex-shrink-0 w-24 h-16`}
+            className={`cursor-pointer border-4 ${currentVideoIndex === index ? 'border-white' : 'border-transparent'
+              } rounded-md overflow-hidden flex-shrink-0 w-24 h-16`}
             onClick={() => handleThumbnailClick(index)}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -153,9 +153,8 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls }) => {
               {videoUrls.map((url, index) => (
                 <motion.div
                   key={index}
-                  className={`cursor-pointer border-4 ${
-                    currentVideoIndex === index ? 'border-white' : 'border-transparent'
-                  } rounded-md overflow-hidden flex-shrink-0 w-24 h-16`}
+                  className={`cursor-pointer border-4 ${currentVideoIndex === index ? 'border-white' : 'border-transparent'
+                    } rounded-md overflow-hidden flex-shrink-0 w-24 h-16`}
                   onClick={() => handleThumbnailClick(index)}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -180,7 +179,6 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls }) => {
                 loop
                 muted={isMobile ? isMuted : false} // Muted on mobile, unmuted on desktop
                 playsInline
-                onClick={toggleMute}
               />
             </div>
           </motion.div>
