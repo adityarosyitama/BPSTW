@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface VideoSliderProps {
@@ -13,11 +13,6 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls }) => {
   const startX = useRef(0);
   const dragDistance = useRef(0);
   const isMobile = window.innerWidth < 768; // Simple mobile detection
-
-  useEffect(() => {
-    const timer = setTimeout(() => setIsMuted(false), 500);
-    return () => clearTimeout(timer);
-  }, [currentVideoIndex]);
 
   const handleThumbnailClick = (index: number) => {
     setCurrentVideoIndex(index);
@@ -54,7 +49,7 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls }) => {
   };
 
   const toggleMute = () => {
-    setIsMuted(!isMuted);
+    setIsMuted(false);
   };
 
   // Dynamic container styles based on orientation and screen size
@@ -109,14 +104,15 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls }) => {
   };
 
   return (
-    <div className="flex flex-col items-center w-full h-full overflow-hidden mt-2">
+    <div className="flex flex-col items-center w-full h-full overflow-hidden mt-2" onClick={toggleMute}>
       {/* Thumbnails (Mobile) */}
       <div className="md:hidden flex space-x-2 overflow-x-auto w-full justify-center z-10 bg-opacity-50 p-2">
         {videoUrls.map((url, index) => (
           <motion.div
             key={index}
-            className={`cursor-pointer border-4 ${currentVideoIndex === index ? 'border-white' : 'border-transparent'
-              } rounded-md overflow-hidden flex-shrink-0 w-24 h-16`}
+            className={`cursor-pointer border-4 ${
+              currentVideoIndex === index ? 'border-white' : 'border-transparent'
+            } rounded-md overflow-hidden flex-shrink-0 w-24 h-16`}
             onClick={() => handleThumbnailClick(index)}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -142,7 +138,7 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls }) => {
         onTouchMove={handleDragMove}
         onTouchEnd={handleDragEnd}
       >
-        <AnimatePresence mode="sync">
+        <AnimatePresence mode="popLayout">
           <motion.div
             key={currentVideoIndex}
             initial={{ opacity: 0, x: dragDistance.current < 0 ? 50 : -50 }}
@@ -157,8 +153,9 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls }) => {
               {videoUrls.map((url, index) => (
                 <motion.div
                   key={index}
-                  className={`cursor-pointer border-4 ${currentVideoIndex === index ? 'border-white' : 'border-transparent'
-                    } rounded-md overflow-hidden flex-shrink-0 w-24 h-16`}
+                  className={`cursor-pointer border-4 ${
+                    currentVideoIndex === index ? 'border-white' : 'border-transparent'
+                  } rounded-md overflow-hidden flex-shrink-0 w-24 h-16`}
                   onClick={() => handleThumbnailClick(index)}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -185,6 +182,24 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls }) => {
                 playsInline
                 onClick={toggleMute}
               />
+              {/* Mute/Unmute Button (Mobile Only)
+              {isMobile && (
+                <button
+                  onClick={toggleMute}
+                  className="absolute bottom-4 right-4 bg-black bg-opacity-50 text-white rounded-full p-2 focus:outline-none hover:bg-opacity-75 transition-all"
+                  aria-label={isMuted ? 'Unmute video' : 'Mute video'}
+                >
+                  {isMuted ? (
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707A1 1 0 0112 5v14a1 1 0 01-1.707.707L5.586 15zM15 9l6 6m0-6l-6 6" />
+                    </svg>
+                  ) : (
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707A1 1 0 0112 5v14a1 1 0 01-1.707.707L5.586 15zM15 7a5 5 0 010 10" />
+                    </svg>
+                  )}
+                </button>
+              )} */}
             </div>
           </motion.div>
         </AnimatePresence>
