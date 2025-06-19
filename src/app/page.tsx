@@ -74,7 +74,6 @@ export default function Home() {
             '/videos/video2.webm',
             '/videos/video3.webm',
           ]}
-          initialVideoIndex={0} // Explicitly set the first video
         />
       </div>
       <SlideIn>
