@@ -1,0 +1,93 @@
+"use client";
+
+import Image from "next/image";
+import { motion, useScroll, useMotionValueEvent, useMotionValue } from "framer-motion";
+import VideoSlider from "../components/VideoSlider";
+import { useState } from "react";
+import SlideIn from "@/components/SlideInLR";
+
+export default function Home() {
+  const { scrollY } = useScroll();
+  const [isVisible, setIsVisible] = useState(true);
+  const translateY = useMotionValue(0);
+
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    if (latest > 50) {
+      setIsVisible(false);
+      translateY.set(-100);
+    } else {
+      setIsVisible(true);
+      translateY.set(0);
+    }
+  });
+
+  return (
+    <>
+      <motion.header
+        style={{ y: translateY }}
+        initial={{ y: -100 }}
+        animate={{ y: isVisible ? 0 : -100 }}
+        transition={{ duration: 0.3 }}
+        className="fixed top-0 left-0 right-0 bg-blue-500/50 bg-opacity-25 backdrop-blur-sm h-14 md:h-16 flex items-center justify-between text-white text-lg md:text-xl z-50 font-bold px-2 sm:px-4"
+      >
+        <div className="flex gap-2 sm:gap-4">
+          <Image
+            src="/home.svg"
+            alt="Home icon"
+            width={24}
+            height={24}
+            className="invert"
+          />
+          <Image
+            src="/user.svg"
+            alt="User icon"
+            width={24}
+            height={24}
+            className="invert"
+          />
+          <Image
+            src="/menu.svg"
+            alt="Menu icon"
+            width={24}
+            height={24}
+            className="invert"
+          />
+        </div>
+        <h2 className="flex-1 text-center text-sm sm:text-lg md:text-xl">
+          BALAI PELAYANAN SOSIAL TRESNA WERDHA
+        </h2>
+      </motion.header>
+      {/* VideoSlider with dynamic padding-top */}
+      <div className={isVisible ? "pt-16" : "pt-10"}>
+        <VideoSlider
+          videoUrls={[
+            '/videos/video1.mp4',
+            '/videos/video2.mp4',
+            '/videos/video3.mp4',
+          ]}
+        />
+      </div>
+      <SlideIn>
+        slide in here
+      </SlideIn>
+
+      <footer className="py-8 px-4">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between gap-8">
+          <div className="flex flex-col gap-1 flex-2">
+            <h3 className="font-semibold text-white text-base md:text-lg">Balai Pelayanan Tresna Werdha Abiyoso</h3>
+            <h4 className="font-semibold text-white text-sm md:text-base">Jl. Kasongan No.223, Kajen, Bangunjiwo, Kec. Kasihan, Kabupaten Bantul, Daerah Istimewa Yogyakarta 55184</h4>
+          </div>
+          <div className="flex flex-col gap-1 flex-2">
+            <h3 className="font-semibold text-white text-base md:text-lg">Balai Pelayanan Tresna Werdha Budi Luhur</h3>
+            <h4 className="font-semibold text-white text-sm md:text-base">JL. Kaliurang, Km. 17, 5, Pakem, Yogyakarta, Area Sawah, Pakembinangun, Pakem, Sleman Regency, Special Region of Yogyakarta 55582</h4>
+          </div>
+          <div className="flex flex-col gap-1 flex-1">
+            <h3 className="font-semibold text-white text-base md:text-lg">Nomor Telepon</h3>
+            <h4 className="font-semibold text-white text-sm md:text-base">(0274) 895402</h4>
+          </div>
+        </div>
+      </footer>
+
+    </>
+  );
+}
