@@ -15,7 +15,7 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls }) => {
   const isMobile = window.innerWidth < 768; // Simple mobile detection
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsMuted(false), 300);
+    const timer = setTimeout(() => setIsMuted(false), 500);
     return () => clearTimeout(timer);
   }, [currentVideoIndex]);
 
@@ -51,6 +51,10 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls }) => {
     const video = e.currentTarget;
     const { videoWidth, videoHeight } = video;
     setOrientation(videoWidth >= videoHeight ? 'landscape' : 'portrait');
+  };
+
+  const toggleMute = () => {
+    setIsMuted(!isMuted);
   };
 
   // Dynamic container styles based on orientation and screen size
@@ -179,6 +183,7 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls }) => {
                 loop
                 muted={isMobile ? isMuted : false} // Muted on mobile, unmuted on desktop
                 playsInline
+                onClick={toggleMute}
               />
             </div>
           </motion.div>
