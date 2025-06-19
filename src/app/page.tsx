@@ -37,14 +37,13 @@ export default function Home() {
         transition={{ duration: 0.3 }}
         className="fixed top-0 left-0 right-0 bg-green-500/50 bg-opacity-25 backdrop-blur-sm h-14 md:h-16 flex items-center justify-between text-white text-lg md:text-xl z-50 font-bold px-2 sm:px-4 "
       >
-        <div className="flex gap-2 sm:gap-4">
+        <div className="hidden md:flex gap-2 sm:gap-4">
           <Image
             src="/logo_dinsos_diy.png"
             alt="Home icon"
             width={40} // Lebar asli gambar
             height={24} // Tinggi asli gambar
             className=" w-auto object-fit"
-            // sizes="(max-width: 640px) 100vw, (max-width: 1280px) 80vw, (max-width: 1536px) 1280px, 1536px"
             priority={true} // Opsional: untuk gambar di atas fold
           />
           {/* <Image
@@ -57,10 +56,9 @@ export default function Home() {
           <Image
             src="/logo_lambada.png"
             alt="Menu icon"
-            width={40} // Lebar asli gambar
+            width={50} // Lebar asli gambar
             height={24} // Tinggi asli gambar
             className=" w-auto object-fit"
-            // sizes="(max-width: 640px) 100vw, (max-width: 1280px) 80vw, (max-width: 1536px) 1280px, 1536px"
             priority={true} // Opsional: untuk gambar di atas fold
          />
         </div>
@@ -69,12 +67,12 @@ export default function Home() {
         </div>
       </motion.header>
       {/* VideoSlider with dynamic padding-top */}
-      <div className={isVisible ? "pt-16" : "pt-10"}>
+      <div className={isVisible ? "pt-16 h-[100vh]" : "pt-10 h-[100vh]"}>
         <VideoSlider
           videoUrls={[
-            '/videos/video1.mp4',
-            '/videos/video2.mp4',
-            '/videos/video3.mp4',
+            '/videos/video1.webm',
+            '/videos/video2.webm',
+            '/videos/video3.webm',
           ]}
         />
       </div>

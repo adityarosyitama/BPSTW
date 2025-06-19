@@ -30,7 +30,7 @@ export default function RootLayout({
         {/* Fixed background SVG */}
         <div
           className="fixed inset-0 z-[-1] w-full h-full bg-cover bg-center"
-          style={{ backgroundImage: "url('/background.png')" }}
+          style={{ backgroundImage: "url('/background_black.png')" }}
         ></div>
         {children}
       </body>

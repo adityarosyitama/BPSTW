@@ -124,9 +124,8 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls }) => {
         {videoUrls.map((url, index) => (
           <motion.div
             key={index}
-            className={`cursor-pointer border-4 ${
-              currentVideoIndex === index ? 'border-white' : 'border-transparent'
-            } rounded-md overflow-hidden flex-shrink-0 w-24 h-16`}
+            className={`cursor-pointer border-4 ${currentVideoIndex === index ? 'border-white' : 'border-transparent'
+              } rounded-md overflow-hidden flex-shrink-0 w-24 h-16`}
             onClick={() => handleThumbnailClick(index)}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -166,9 +165,8 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls }) => {
               {videoUrls.map((url, index) => (
                 <motion.div
                   key={index}
-                  className={`cursor-pointer border-4 ${
-                    currentVideoIndex === index ? 'border-white' : 'border-transparent'
-                  } rounded-md overflow-hidden flex-shrink-0 w-24 h-16`}
+                  className={`cursor-pointer border-4 ${currentVideoIndex === index ? 'border-white' : 'border-transparent'
+                    } rounded-md overflow-hidden flex-shrink-0 w-24 h-16`}
                   onClick={() => handleThumbnailClick(index)}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -184,13 +182,15 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls }) => {
 
             {/* Video */}
             <video
-              src={videoUrls[currentVideoIndex]}
-              onLoadedMetadata={handleVideoMetadata}
-              className="rounded-md shadow-lg object-contain max-w-full max-h-full"
+              width="100%"
               autoPlay
               loop
-              playsInline
-            />
+              onLoadedMetadata={handleVideoMetadata}
+              className="rounded-md shadow-lg object-contain max-w-full max-h-full"
+            >
+              <source src={videoUrls[currentVideoIndex]} type="video/webm" />
+              <p>Browser Anda tidak mendukung elemen video.</p>
+            </video>
           </motion.div>
         </AnimatePresence>
       </div>
