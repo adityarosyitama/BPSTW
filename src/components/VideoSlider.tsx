@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface VideoSliderProps {
@@ -9,8 +9,23 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls }) => {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [orientation, setOrientation] = useState<'landscape' | 'portrait' | null>(null);
+  const [isClient, setIsClient] = useState(false);
+  const [screenWidth, setScreenWidth] = useState<number | null>(null);
   const startX = useRef(0);
   const dragDistance = useRef(0);
+
+  // Detect client-side rendering and get initial screen width
+  useEffect(() => {
+    setIsClient(true);
+    setScreenWidth(window.innerWidth);
+
+    const handleResize = () => {
+      setScreenWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const handleThumbnailClick = (index: number) => {
     setCurrentVideoIndex(index);
@@ -51,17 +66,17 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls }) => {
     // Desktop styles (md and above)
     const desktopStyles = {
       landscape: {
-        maxHeight: '90vh', // Limit max height
+        maxHeight: '90vh',
         width: 'auto',
         margin: '0 auto',
       },
       portrait: {
-        height: '90vh', // Set height to 80% of screen height
-        maxWidth: '50vw', // Limit width for portrait
-        margin: '0 auto', // Center the container
+        height: '90vh',
+        maxWidth: '50vw',
+        margin: '0 auto',
       },
       default: {
-        paddingBottom: '56.25%', // Default aspect ratio (16:9)
+        paddingBottom: '56.25%',
         margin: '0 auto',
       },
     };
@@ -69,32 +84,37 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls }) => {
     // Mobile styles
     const mobileStyles = {
       landscape: {
-        height: '100vh', // Full viewport height
-        width: 'auto', // Maintain aspect ratio
-        maxWidth: '100vw', // Prevent overflow
-        margin: '0 auto', // Center horizontally
+        height: '100vh',
+        width: 'auto',
+        maxWidth: '100vw',
+        margin: '0 auto',
       },
       portrait: {
-        width: '100vw', // Full viewport width
-        height: 'auto', // Maintain aspect ratio
-        maxHeight: '100vh', // Prevent overflow
-        margin: '0 auto', // Center vertically
+        width: '100vw',
+        height: 'auto',
+        maxHeight: '100vh',
+        margin: '0 auto',
       },
       default: {
         width: '100vw',
-        height: '56.25vw', // Default 16:9 aspect ratio
+        height: '56.25vw',
         maxHeight: '100vh',
         margin: '0 auto',
       },
     };
 
-    // Return styles based on orientation
-    if (orientation === 'landscape') {
-      return window.innerWidth >= 768 ? desktopStyles.landscape : mobileStyles.landscape;
-    } else if (orientation === 'portrait') {
-      return window.innerWidth >= 768 ? desktopStyles.portrait : mobileStyles.portrait;
+    // Use mobile styles as default for SSR (when screenWidth is null)
+    if (!isClient || screenWidth === null) {
+      return mobileStyles.default;
     }
-    return window.innerWidth >= 768 ? desktopStyles.default : mobileStyles.default;
+
+    // Return styles based on orientation and screen width
+    if (orientation === 'landscape') {
+      return screenWidth >= 768 ? desktopStyles.landscape : mobileStyles.landscape;
+    } else if (orientation === 'portrait') {
+      return screenWidth >= 768 ? desktopStyles.portrait : mobileStyles.portrait;
+    }
+    return screenWidth >= 768 ? desktopStyles.default : mobileStyles.default;
   };
 
   return (
@@ -114,7 +134,6 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls }) => {
             <video
               src={url}
               className="object-cover w-full h-full"
-              // muted
               preload="metadata"
             />
           </motion.div>
@@ -157,7 +176,6 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls }) => {
                   <video
                     src={url}
                     className="object-cover w-full h-full"
-                    // muted
                     preload="metadata"
                   />
                 </motion.div>
@@ -171,7 +189,6 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls }) => {
               className="rounded-md shadow-lg object-contain max-w-full max-h-full"
               autoPlay
               loop
-              // muted
               playsInline
             />
           </motion.div>

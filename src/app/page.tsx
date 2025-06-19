@@ -2,9 +2,16 @@
 
 import Image from "next/image";
 import { motion, useScroll, useMotionValueEvent, useMotionValue } from "framer-motion";
-import VideoSlider from "../components/VideoSlider";
+// import VideoSlider from "../components/VideoSlider";
+import dynamic from "next/dynamic";
 import { useState } from "react";
 import SlideIn from "@/components/SlideInLR";
+
+// Dynamically import VideoSlider to disable SSR
+const VideoSlider = dynamic(() => import("../components/VideoSlider"), {
+  ssr: false,
+  loading: () => <div className="w-full h-[56.25vw] max-h-[100vh] bg-gray-200 animate-pulse" />,
+});
 
 export default function Home() {
   const { scrollY } = useScroll();
