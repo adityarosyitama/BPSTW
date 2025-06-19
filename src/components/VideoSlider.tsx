@@ -15,7 +15,7 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls }) => {
   const isMobile = window.innerWidth < 768; // Simple mobile detection
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsMuted(false), 500);
+    const timer = setTimeout(() => setIsMuted(false), 300);
     return () => clearTimeout(timer);
   }, [currentVideoIndex]);
 
