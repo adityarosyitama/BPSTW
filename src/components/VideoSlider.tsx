@@ -13,6 +13,7 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls }) => {
   const [screenWidth, setScreenWidth] = useState<number | null>(null);
   const startX = useRef(0);
   const dragDistance = useRef(0);
+  const videoRef = useRef<HTMLVideoElement>(null); // Add ref for video element
 
   // Detect client-side rendering and get initial screen width
   useEffect(() => {
@@ -26,6 +27,16 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls }) => {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  // Play video when currentVideoIndex changes
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.load(); // Reload the video to ensure the new source is applied
+      videoRef.current.play().catch((error) => {
+        console.error('Video playback failed:', error);
+      });
+    }
+  }, [currentVideoIndex]);
 
   const handleThumbnailClick = (index: number) => {
     setCurrentVideoIndex(index);
@@ -182,10 +193,10 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls }) => {
 
             {/* Video */}
             <video
+              ref={videoRef} // Attach ref to video element
               width="100%"
-              autoPlay
               loop
-              playsInline
+              playsInline // Keep this to ensure mobile compatibility
               onLoadedMetadata={handleVideoMetadata}
               className="rounded-md shadow-lg object-contain max-w-full max-h-full"
             >
