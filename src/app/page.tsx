@@ -105,14 +105,6 @@ export default function Home() {
           <div className="flex flex-col gap-1 flex-2  border-4 border-green-500 rounded-3xl p-5 bg-gray-500/50 bg-opacity-25 backdrop-blur-sm">
             <h3 className="font-semibold text-white text-base md:text-lg">Balai Pelayanan Tresna Werdha Abiyoso</h3>
             <h4 className="font-semibold text-white text-sm md:text-base">Jl. Kasongan No.223, Kajen, Bangunjiwo, Kec. Kasihan, Kabupaten Bantul, Daerah Istimewa Yogyakarta 55184</h4>
-          </div>
-          <div className="flex flex-col gap-1 flex-2  border-4 border-green-500 rounded-3xl p-5 bg-gray-500/50 bg-opacity-25 backdrop-blur-sm">
-            <h3 className="font-semibold text-white text-base md:text-lg">Balai Pelayanan Tresna Werdha Budi Luhur</h3>
-            <h4 className="font-semibold text-white text-sm md:text-base">JL. Kaliurang, Km. 17, 5, Pakem, Yogyakarta, Area Sawah, Pakembinangun, Pakem, Sleman Regency, Special Region of Yogyakarta 55582</h4>
-          </div>
-          <div className="flex flex-col gap-1 flex-1  border-4 border-green-500 rounded-3xl p-5 bg-gray-500/50 bg-opacity-25 backdrop-blur-sm">
-            <h3 className="font-semibold text-white text-base md:text-lg">Nomor Telepon</h3>
-            <h4 className="font-semibold text-white text-sm md:text-base">(0274) 895402</h4>
             <a
               href="https://wa.me/6282326067320"
               target="_blank"
@@ -121,6 +113,22 @@ export default function Home() {
             >
               WhatsApp: 082326067320
             </a>
+          </div>
+          <div className="flex flex-col gap-1 flex-2  border-4 border-green-500 rounded-3xl p-5 bg-gray-500/50 bg-opacity-25 backdrop-blur-sm">
+            <h3 className="font-semibold text-white text-base md:text-lg">Balai Pelayanan Tresna Werdha Budi Luhur</h3>
+            <h4 className="font-semibold text-white text-sm md:text-base">JL. Kaliurang, Km. 17, 5, Pakem, Yogyakarta, Area Sawah, Pakembinangun, Pakem, Sleman Regency, Special Region of Yogyakarta 55582</h4>
+            <a
+              href="https://wa.me/6282221278569"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-2 inline-block bg-green-500 text-white font-semibold text-sm md:text-base px-4 py-2 rounded-lg hover:bg-green-600 transition-colors"
+            >
+              WhatsApp: 082221278569
+            </a>
+          </div>
+          <div className="flex flex-col gap-1 flex-1  border-4 border-green-500 rounded-3xl p-5 bg-gray-500/50 bg-opacity-25 backdrop-blur-sm">
+            <h3 className="font-semibold text-white text-base md:text-lg">Nomor Telepon</h3>
+            <h4 className="font-semibold text-white text-sm md:text-base">(0274) 895402</h4>
           </div>
         </div>
       </footer>
