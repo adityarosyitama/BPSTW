@@ -60,7 +60,7 @@ export default function Home() {
             height={24} // Tinggi asli gambar
             className=" w-auto object-fit"
             priority={true} // Opsional: untuk gambar di atas fold
-         />
+          />
         </div>
         <div className="md:flex-1 text-center text-sm sm:text-lg md:text-xl">
           BALAI PELAYANAN SOSIAL TRESNA WERDHA
@@ -113,6 +113,14 @@ export default function Home() {
           <div className="flex flex-col gap-1 flex-1  border-4 border-green-500 rounded-3xl p-5 bg-gray-500/50 bg-opacity-25 backdrop-blur-sm">
             <h3 className="font-semibold text-white text-base md:text-lg">Nomor Telepon</h3>
             <h4 className="font-semibold text-white text-sm md:text-base">(0274) 895402</h4>
+            <a
+              href="https://wa.me/6282326067320"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-2 inline-block bg-green-500 text-white font-semibold text-sm md:text-base px-4 py-2 rounded-lg hover:bg-green-600 transition-colors"
+            >
+              WhatsApp: 082326067320
+            </a>
           </div>
         </div>
       </footer>
