@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 interface VideoSliderProps {
   videoUrls: string[];
-  initialVideoIndex?: number; // Added to allow specifying initial video
+  initialVideoIndex?: number;
 }
 
 const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls, initialVideoIndex = 0 }) => {
@@ -12,11 +12,12 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls, initialVideoIndex 
   const [orientation, setOrientation] = useState<'landscape' | 'portrait' | null>(null);
   const [isClient, setIsClient] = useState(false);
   const [screenWidth, setScreenWidth] = useState<number | null>(null);
+  const [isMuted, setIsMuted] = useState(false); // Track muted state
   const startX = useRef(0);
   const dragDistance = useRef(0);
-  const videoRef = useRef<HTMLVideoElement>(null); // Reference to video element
+  const videoRef = useRef<HTMLVideoElement>(null);
 
-  // Ensure client-side rendering and initial screen width
+  // Client-side initialization
   useEffect(() => {
     setIsClient(true);
     setScreenWidth(window.innerWidth);
@@ -29,14 +30,27 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls, initialVideoIndex 
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Ensure the first video plays on mount
+  // Attempt unmuted playback, fallback to muted if blocked
   useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.play().catch((error) => {
-        console.error('Autoplay failed:', error);
+    if (!videoRef.current || !isClient) return;
+
+    const video = videoRef.current;
+    video.muted = false; // Start unmuted
+    setIsMuted(false);
+
+    const playPromise = video.play();
+    if (playPromise !== undefined) {
+      playPromise.catch((error) => {
+        console.warn('Unmuted autoplay failed:', error);
+        // Fallback to muted playback
+        video.muted = true;
+        setIsMuted(true);
+        video.play().catch((mutedError) => {
+          console.error('Muted autoplay also failed:', mutedError);
+        });
       });
     }
-  }, [currentVideoIndex]);
+  }, [currentVideoIndex, isClient]);
 
   const handleThumbnailClick = (index: number) => {
     setCurrentVideoIndex(index);
@@ -58,7 +72,7 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls, initialVideoIndex 
     if (!isDragging) return;
     setIsDragging(false);
 
-    const swipeThreshold = screenWidth ? screenWidth * 0.1 : 50; // 10% of screen width
+    const swipeThreshold = screenWidth ? screenWidth * 0.1 : 50;
     if (dragDistance.current > swipeThreshold && currentVideoIndex > 0) {
       setCurrentVideoIndex(currentVideoIndex - 1);
     } else if (dragDistance.current < -swipeThreshold && currentVideoIndex < videoUrls.length - 1) {
@@ -67,12 +81,12 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls, initialVideoIndex 
   };
 
   const handleVideoMetadata = (e: React.SyntheticEvent<HTMLVideoElement>) => {
+    if (!isClient) return; // Skip during SSR
     const video = e.currentTarget;
     const { videoWidth, videoHeight } = video;
     setOrientation(videoWidth >= videoHeight ? 'landscape' : 'portrait');
   };
 
-  // Dynamic container styles based on orientation and screen size
   const getContainerStyles = () => {
     const desktopStyles = {
       landscape: {
@@ -132,8 +146,8 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls, initialVideoIndex 
             key={index}
             className={`cursor-pointer border-4 ${currentVideoIndex === index ? 'border-white' : 'border-transparent'} rounded-md overflow-hidden flex-shrink-0 w-24 h-16`}
             onClick={() => handleThumbnailClick(index)}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            whileHover={{ scale: isClient ? 1.05 : 1 }} // Disable hover during SSR
+            whileTap={{ scale: isClient ? 0.95 : 1 }}
             role="button"
             aria-label={`Select video ${index + 1}`}
           >
@@ -141,19 +155,20 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls, initialVideoIndex 
               src={url}
               className="object-cover w-full h-full"
               preload="metadata"
+              muted // Thumbnails are always muted
             />
           </motion.div>
         ))}
       </div>
       <div
         className="w-full h-full relative overflow-hidden"
-        onMouseDown={handleDragStart}
-        onMouseMove={handleDragMove}
-        onMouseUp={handleDragEnd}
-        onMouseLeave={handleDragEnd}
-        onTouchStart={handleDragStart}
-        onTouchMove={handleDragMove}
-        onTouchEnd={handleDragEnd}
+        onMouseDown={isClient ? handleDragStart : undefined}
+        onMouseMove={isClient ? handleDragMove : undefined}
+        onMouseUp={isClient ? handleDragEnd : undefined}
+        onMouseLeave={isClient ? handleDragEnd : undefined}
+        onTouchStart={isClient ? handleDragStart : undefined}
+        onTouchMove={isClient ? handleDragMove : undefined}
+        onTouchEnd={isClient ? handleDragEnd : undefined}
         role="region"
         aria-label="Video carousel"
       >
@@ -173,8 +188,8 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls, initialVideoIndex 
                   key={index}
                   className={`cursor-pointer border-4 ${currentVideoIndex === index ? 'border-white' : 'border-transparent'} rounded-md overflow-hidden flex-shrink-0 w-24 h-16`}
                   onClick={() => handleThumbnailClick(index)}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                  whileHover={{ scale: isClient ? 1.05 : 1 }}
+                  whileTap={{ scale: isClient ? 0.95 : 1 }}
                   role="button"
                   aria-label={`Select video ${index + 1}`}
                 >
@@ -182,6 +197,7 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls, initialVideoIndex 
                     src={url}
                     className="object-cover w-full h-full"
                     preload="metadata"
+                    muted
                   />
                 </motion.div>
               ))}
@@ -189,8 +205,8 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls, initialVideoIndex 
             <video
               ref={videoRef}
               width="100%"
-              autoPlay
-              // muted // Required for reliable autoplay
+              autoPlay={isClient} // Enable autoPlay only on client
+              muted={isMuted} // Dynamic muted state
               loop
               onLoadedMetadata={handleVideoMetadata}
               className="rounded-md shadow-lg object-contain max-w-full max-h-full"
