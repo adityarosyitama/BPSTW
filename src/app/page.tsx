@@ -92,7 +92,8 @@ export default function Home() {
           </div>
           {/* Text below for mobile, right for desktop */}
           <div className="flex flex-col gap-2  border-4 border-green-500 rounded-3xl p-5 bg-gray-500/50 bg-opacity-25 backdrop-blur-sm">
-            <h2 className="text-2xl md:text-3xl font-bold text-white">Kepala Balai Pelayanan Sosial Tresna Werdha ( BPSTW )</h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-white">Kepala Balai Pelayanan Sosial Tresna Werdha</h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-white">( BPSTW )</h2>
             <h3 className="text-3xl md:text-4xl font-semibold text-white">Tuty Amalia, SH., M.Si</h3>
             <p className="text-base md:text-lg text-gray-200">
               Balai Pelayanan Sosial Tresna Werdha Dinas Sosial Daerah Istimewa Yogyakarta adalah salah satu Unit Pelaksana Teknis (UPT) yang ada di bawah Dinas Sosial DIY kami diberi tugas sebagai unit yang melakukan pelayanan sosial terhadap lansia yang ada di Daerah Istimewa Yogyakarta.
