@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface VideoSliderProps {
@@ -9,34 +9,10 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls }) => {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [orientation, setOrientation] = useState<'landscape' | 'portrait' | null>(null);
-  const [isClient, setIsClient] = useState(false);
-  const [screenWidth, setScreenWidth] = useState<number | null>(null);
+  const [isMuted, setIsMuted] = useState(true); // State for mute/unmute on mobile
   const startX = useRef(0);
   const dragDistance = useRef(0);
-  const videoRef = useRef<HTMLVideoElement>(null); // Add ref for video element
-
-  // Detect client-side rendering and get initial screen width
-  useEffect(() => {
-    setIsClient(true);
-    setScreenWidth(window.innerWidth);
-
-    const handleResize = () => {
-      setScreenWidth(window.innerWidth);
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  // Play video when currentVideoIndex changes
-  useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.load(); // Reload the video to ensure the new source is applied
-      videoRef.current.play().catch((error) => {
-        console.error('Video playback failed:', error);
-      });
-    }
-  }, [currentVideoIndex]);
+  const isMobile = window.innerWidth < 768; // Simple mobile detection
 
   const handleThumbnailClick = (index: number) => {
     setCurrentVideoIndex(index);
@@ -70,6 +46,10 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls }) => {
     const video = e.currentTarget;
     const { videoWidth, videoHeight } = video;
     setOrientation(videoWidth >= videoHeight ? 'landscape' : 'portrait');
+  };
+
+  const toggleMute = () => {
+    setIsMuted(!isMuted);
   };
 
   // Dynamic container styles based on orientation and screen size
@@ -114,18 +94,13 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls }) => {
       },
     };
 
-    // Use mobile styles as default for SSR (when screenWidth is null)
-    if (!isClient || screenWidth === null) {
-      return mobileStyles.default;
-    }
-
-    // Return styles based on orientation and screen width
+    // Return styles based on orientation
     if (orientation === 'landscape') {
-      return screenWidth >= 768 ? desktopStyles.landscape : mobileStyles.landscape;
+      return window.innerWidth >= 768 ? desktopStyles.landscape : mobileStyles.landscape;
     } else if (orientation === 'portrait') {
-      return screenWidth >= 768 ? desktopStyles.portrait : mobileStyles.portrait;
+      return window.innerWidth >= 768 ? desktopStyles.portrait : mobileStyles.portrait;
     }
-    return screenWidth >= 768 ? desktopStyles.default : mobileStyles.default;
+    return window.innerWidth >= 768 ? desktopStyles.default : mobileStyles.default;
   };
 
   return (
@@ -135,8 +110,9 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls }) => {
         {videoUrls.map((url, index) => (
           <motion.div
             key={index}
-            className={`cursor-pointer border-4 ${currentVideoIndex === index ? 'border-white' : 'border-transparent'
-              } rounded-md overflow-hidden flex-shrink-0 w-24 h-16`}
+            className={`cursor-pointer border-4 ${
+              currentVideoIndex === index ? 'border-white' : 'border-transparent'
+            } rounded-md overflow-hidden flex-shrink-0 w-24 h-16`}
             onClick={() => handleThumbnailClick(index)}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -144,6 +120,7 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls }) => {
             <video
               src={url}
               className="object-cover w-full h-full"
+              muted
               preload="metadata"
             />
           </motion.div>
@@ -176,8 +153,9 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls }) => {
               {videoUrls.map((url, index) => (
                 <motion.div
                   key={index}
-                  className={`cursor-pointer border-4 ${currentVideoIndex === index ? 'border-white' : 'border-transparent'
-                    } rounded-md overflow-hidden flex-shrink-0 w-24 h-16`}
+                  className={`cursor-pointer border-4 ${
+                    currentVideoIndex === index ? 'border-white' : 'border-transparent'
+                  } rounded-md overflow-hidden flex-shrink-0 w-24 h-16`}
                   onClick={() => handleThumbnailClick(index)}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -185,6 +163,7 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls }) => {
                   <video
                     src={url}
                     className="object-cover w-full h-full"
+                    muted
                     preload="metadata"
                   />
                 </motion.div>
@@ -192,17 +171,35 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls }) => {
             </div>
 
             {/* Video */}
-            <video
-              ref={videoRef} // Attach ref to video element
-              width="100%"
-              loop
-              playsInline // Keep this to ensure mobile compatibility
-              onLoadedMetadata={handleVideoMetadata}
-              className="rounded-md shadow-lg object-contain max-w-full max-h-full"
-            >
-              <source src={videoUrls[currentVideoIndex]} type="video/webm" />
-              <p>Browser Anda tidak mendukung elemen video.</p>
-            </video>
+            <div className="relative w-full h-full flex items-center justify-center">
+              <video
+                src={videoUrls[currentVideoIndex]}
+                onLoadedMetadata={handleVideoMetadata}
+                className="rounded-md shadow-lg object-contain max-w-full max-h-full"
+                autoPlay
+                loop
+                muted={isMobile ? isMuted : false} // Muted on mobile, unmuted on desktop
+                playsInline
+              />
+              {/* Mute/Unmute Button (Mobile Only) */}
+              {isMobile && (
+                <button
+                  onClick={toggleMute}
+                  className="absolute bottom-4 right-4 bg-black bg-opacity-50 text-white rounded-full p-2 focus:outline-none hover:bg-opacity-75 transition-all"
+                  aria-label={isMuted ? 'Unmute video' : 'Mute video'}
+                >
+                  {isMuted ? (
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707A1 1 0 0112 5v14a1 1 0 01-1.707.707L5.586 15zM15 9l6 6m0-6l-6 6" />
+                    </svg>
+                  ) : (
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707A1 1 0 0112 5v14a1 1 0 01-1.707.707L5.586 15zM15 7a5 5 0 010 10" />
+                    </svg>
+                  )}
+                </button>
+              )}
+            </div>
           </motion.div>
         </AnimatePresence>
       </div>
