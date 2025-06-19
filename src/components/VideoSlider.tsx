@@ -190,7 +190,7 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls, initialVideoIndex 
               ref={videoRef}
               width="100%"
               autoPlay
-              muted // Required for reliable autoplay
+              // muted // Required for reliable autoplay
               loop
               onLoadedMetadata={handleVideoMetadata}
               className="rounded-md shadow-lg object-contain max-w-full max-h-full"
