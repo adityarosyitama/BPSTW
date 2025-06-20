@@ -25,11 +25,9 @@ export default function Home() {
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     if (latest > 50) {
-      toggleMute()
       setIsVisible(false);
       translateY.set(-100);
     } else {
-      toggleMute()
       setIsVisible(true);
       translateY.set(0);
     }

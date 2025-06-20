@@ -21,21 +21,18 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls, isMuted, setIsMute
   };
 
   const handleDragStart = (e: React.MouseEvent | React.TouchEvent) => {
-    setIsMuted(false)
     setIsDragging(true);
     startX.current = 'touches' in e ? e.touches[0].clientX : e.clientX;
     dragDistance.current = 0;
   };
 
   const handleDragMove = (e: React.MouseEvent | React.TouchEvent) => {
-    setIsMuted(false)
     if (!isDragging) return;
     const currentX = 'touches' in e ? e.touches[0].clientX : e.clientX;
     dragDistance.current = currentX - startX.current;
   };
 
   const handleDragEnd = () => {
-    setIsMuted(false)
     if (!isDragging) return;
     setIsDragging(false);
 
