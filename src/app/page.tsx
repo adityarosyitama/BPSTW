@@ -5,6 +5,7 @@ import { motion, useScroll, useMotionValueEvent, useMotionValue } from "framer-m
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import SlideIn from "@/components/SlideInLR";
+import SplashScreen from "@/components/SplahScreen";
 
 const VideoSlider = dynamic(() => import("../components/VideoSlider"), {
   ssr: false,
@@ -14,8 +15,8 @@ const VideoSlider = dynamic(() => import("../components/VideoSlider"), {
 export default function Home() {
   const { scrollY } = useScroll();
   const [isVisible, setIsVisible] = useState(true);
-  const [isMuted, setIsMuted] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
+  const [showSplash, setShowSplash] = useState(true);
   const translateY = useMotionValue(0);
 
   useEffect(() => {
@@ -29,7 +30,6 @@ export default function Home() {
     ? ["/videos/video1.webm", "/videos/video2.webm", "/videos/video3.webm"]
     : ["/videos/video1.mp4", "/videos/video2.mp4", "/videos/video3.mp4"];
 
-  const toggleMute = () => setIsMuted(false);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     const threshold = 50;
@@ -37,7 +37,12 @@ export default function Home() {
     translateY.set(latest > threshold ? -100 : 0);
   });
 
-  console.log('mute', isMuted)
+  if (showSplash) {
+    return <SplashScreen
+      logoSrc="/logo_dinsos_diy.png" // Provide the path to your logo
+      onFadeComplete={() => setShowSplash(false)}
+    />;
+  }
   return (
     <>
       <motion.header
@@ -45,7 +50,6 @@ export default function Home() {
         initial={{ y: -100 }}
         animate={{ y: isVisible ? 0 : -100 }}
         transition={{ duration: 0.3 }}
-        onClick={toggleMute}
         className="fixed left-0 right-0 top-0 z-50 flex h-14 items-center justify-between bg-green-500/50 px-2 text-lg text-white backdrop-blur-sm sm:px-4 md:h-16 md:text-xl"
       >
         <div className="hidden gap-2 md:flex sm:gap-4">
@@ -69,30 +73,15 @@ export default function Home() {
         <div className="flex-1 text-center text-sm sm:text-lg md:text-xl">
           BALAI PELAYANAN SOSIAL TRESNA WERDHA
         </div>
-
-        {/*Mute/Unmute Button (Mobile Only)*/}
-        {isMuted && isMobile && (
-          <Image
-            onClick={toggleMute}
-            src="/mute.svg"
-            alt="mute logo"
-            width={24}
-            height={24}
-            className="absolute bottom-4 right-4 bg-white rounded-full p-1 focus:outline-none hover:bg-opacity-75 transition-all"
-            aria-label={isMuted ? 'Unmute video' : 'Mute video'}
-          >
-          </Image>
-        )}
       </motion.header>
 
-      <div className={`h-[100vh] ${isVisible ? "pt-16" : "pt-10"}`} onClick={toggleMute}>
-        <VideoSlider videoUrls={videoUrls} isMuted={isMuted} setIsMuted={setIsMuted} isMobile={isMobile} />
+      <div className={`h-[100vh] ${isVisible ? "pt-16" : "pt-10"}`}>
+        <VideoSlider videoUrls={videoUrls} />
       </div>
 
       <SlideIn>
         <div
           className="mx-auto flex max-w-6xl flex-col items-center gap-4 px-4 py-8 md:flex-row md:gap-8"
-          onClick={toggleMute}
         >
           <div className="flex-shrink-0">
             <Image
@@ -118,7 +107,7 @@ export default function Home() {
         </div>
       </SlideIn>
 
-      <footer className="px-4 py-8" onClick={toggleMute}>
+      <footer className="px-4 py-8" >
         <div className="mx-auto flex max-w-6xl flex-col justify-between gap-8 md:flex-row">
           <div className="flex flex-2 flex-col gap-1 rounded-3xl border-4 border-green-500 bg-gray-500/50 p-5 backdrop-blur-sm">
             <h3 className="text-base font-semibold text-white md:text-lg">Balai Pelayanan Tresna Werdha Abiyoso</h3>

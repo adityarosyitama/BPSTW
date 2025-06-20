@@ -3,12 +3,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 interface VideoSliderProps {
   videoUrls: string[];
-  isMuted: boolean;
-  setIsMuted: React.Dispatch<React.SetStateAction<boolean>>;
-  isMobile: boolean;
 }
 
-const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls, isMuted, setIsMuted, isMobile }) => {
+const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls }) => {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [orientation, setOrientation] = useState<'landscape' | 'portrait' | null>(null);
@@ -16,7 +13,6 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls, isMuted, setIsMute
   const dragDistance = useRef(0);
 
   const handleThumbnailClick = (index: number) => {
-    setIsMuted(false)
     setCurrentVideoIndex(index);
   };
 
@@ -48,10 +44,6 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls, isMuted, setIsMute
     const video = e.currentTarget;
     const { videoWidth, videoHeight } = video;
     setOrientation(videoWidth >= videoHeight ? 'landscape' : 'portrait');
-  };
-
-  const toggleMute = () => {
-    setIsMuted(false);
   };
 
   // Dynamic container styles based on orientation and screen size
@@ -106,7 +98,7 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls, isMuted, setIsMute
   };
 
   return (
-    <div className="flex flex-col items-center w-full h-full overflow-hidden mt-2" onClick={toggleMute}>
+    <div className="flex flex-col items-center w-full h-full overflow-hidden mt-2">
       {/* Thumbnails (Mobile) */}
       <div className="md:hidden flex space-x-2 overflow-x-auto w-full justify-center z-10 bg-opacity-50 p-2">
         {videoUrls.map((url, index) => (
@@ -178,9 +170,7 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls, isMuted, setIsMute
                 className="rounded-md shadow-lg object-contain max-w-full max-h-full"
                 autoPlay
                 loop
-                muted={isMobile ? isMuted : false} // Muted on mobile, unmuted on desktop
                 playsInline
-                onClick={toggleMute}
               />
             </div>
           </motion.div>
