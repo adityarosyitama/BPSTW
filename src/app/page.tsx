@@ -17,12 +17,15 @@ export default function Home() {
   const { scrollY } = useScroll();
   const [isVisible, setIsVisible] = useState(true);
   const translateY = useMotionValue(0);
+  const [isMuted, setIsMuted] = useState(true); // State for mute/unmute on mobile
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     if (latest > 50) {
+      setIsMuted(false)
       setIsVisible(false);
       translateY.set(-100);
     } else {
+      setIsMuted(false)
       setIsVisible(true);
       translateY.set(0);
     }
@@ -74,6 +77,8 @@ export default function Home() {
             '/videos/video2.webm',
             '/videos/video3.webm',
           ]}
+          isMuted={isMuted}
+          setIsMuted={setIsMuted} // Pass isMuted and setIsMuted
         />
       </div>
       <SlideIn>

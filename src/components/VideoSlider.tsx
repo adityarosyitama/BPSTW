@@ -3,13 +3,14 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 interface VideoSliderProps {
   videoUrls: string[];
+  isMuted: boolean; // Add isMuted to props
+  setIsMuted: React.Dispatch<React.SetStateAction<boolean>>; // Add setIsMuted to props
 }
 
-const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls }) => {
+const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls, isMuted, setIsMuted }) => {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [orientation, setOrientation] = useState<'landscape' | 'portrait' | null>(null);
-  const [isMuted, setIsMuted] = useState(true); // State for mute/unmute on mobile
   const startX = useRef(0);
   const dragDistance = useRef(0);
   const isMobile = window.innerWidth < 768; // Simple mobile detection
@@ -19,18 +20,21 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls }) => {
   };
 
   const handleDragStart = (e: React.MouseEvent | React.TouchEvent) => {
+    setIsMuted(false)
     setIsDragging(true);
     startX.current = 'touches' in e ? e.touches[0].clientX : e.clientX;
     dragDistance.current = 0;
   };
 
   const handleDragMove = (e: React.MouseEvent | React.TouchEvent) => {
+    setIsMuted(false)
     if (!isDragging) return;
     const currentX = 'touches' in e ? e.touches[0].clientX : e.clientX;
     dragDistance.current = currentX - startX.current;
   };
 
   const handleDragEnd = () => {
+    setIsMuted(false)
     if (!isDragging) return;
     setIsDragging(false);
 
@@ -110,9 +114,8 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls }) => {
         {videoUrls.map((url, index) => (
           <motion.div
             key={index}
-            className={`cursor-pointer border-4 ${
-              currentVideoIndex === index ? 'border-white' : 'border-transparent'
-            } rounded-md overflow-hidden flex-shrink-0 w-24 h-16`}
+            className={`cursor-pointer border-4 ${currentVideoIndex === index ? 'border-white' : 'border-transparent'
+              } rounded-md overflow-hidden flex-shrink-0 w-24 h-16`}
             onClick={() => handleThumbnailClick(index)}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -153,9 +156,8 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls }) => {
               {videoUrls.map((url, index) => (
                 <motion.div
                   key={index}
-                  className={`cursor-pointer border-4 ${
-                    currentVideoIndex === index ? 'border-white' : 'border-transparent'
-                  } rounded-md overflow-hidden flex-shrink-0 w-24 h-16`}
+                  className={`cursor-pointer border-4 ${currentVideoIndex === index ? 'border-white' : 'border-transparent'
+                    } rounded-md overflow-hidden flex-shrink-0 w-24 h-16`}
                   onClick={() => handleThumbnailClick(index)}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
