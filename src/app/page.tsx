@@ -25,11 +25,11 @@ export default function Home() {
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     if (latest > 50) {
-      setIsMuted(false)
+      toggleMute()
       setIsVisible(false);
       translateY.set(-100);
     } else {
-      setIsMuted(false)
+      toggleMute()
       setIsVisible(true);
       translateY.set(0);
     }
@@ -43,7 +43,6 @@ export default function Home() {
         animate={{ y: isVisible ? 0 : -100 }}
         transition={{ duration: 0.3 }}
         onClick={toggleMute}
-        onDrag={toggleMute}
         className="fixed top-0 left-0 right-0 bg-green-500/50 bg-opacity-25 backdrop-blur-sm h-14 md:h-16 flex items-center justify-between text-white text-lg md:text-xl z-50 font-bold px-2 sm:px-4 "
       >
         <div className="hidden md:flex gap-2 sm:gap-4" >
@@ -88,7 +87,7 @@ export default function Home() {
         />
       </div>
       <SlideIn>
-        <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8 py-8 px-4 max-w-6xl mx-auto" onClick={toggleMute} onDrag={toggleMute}>
+        <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8 py-8 px-4 max-w-6xl mx-auto" onClick={toggleMute}>
           {/* Image on top for mobile, left for desktop */}
           <div className="flex-shrink-0">
             <Image
@@ -111,7 +110,7 @@ export default function Home() {
         </div>
       </SlideIn>
 
-      <footer className="py-8 px-4" onClick={toggleMute} onDrag={toggleMute}>
+      <footer className="py-8 px-4" onClick={toggleMute}>
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between gap-8 ">
           <div className="flex flex-col gap-1 flex-2  border-4 border-green-500 rounded-3xl p-5 bg-gray-500/50 bg-opacity-25 backdrop-blur-sm">
             <h3 className="font-semibold text-white text-base md:text-lg">Balai Pelayanan Tresna Werdha Abiyoso</h3>
