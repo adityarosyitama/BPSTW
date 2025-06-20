@@ -182,24 +182,6 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls, isMuted, setIsMute
                 playsInline
                 onClick={toggleMute}
               />
-              {/* Mute/Unmute Button (Mobile Only)
-              {isMobile && (
-                <button
-                  onClick={toggleMute}
-                  className="absolute bottom-4 right-4 bg-black bg-opacity-50 text-white rounded-full p-2 focus:outline-none hover:bg-opacity-75 transition-all"
-                  aria-label={isMuted ? 'Unmute video' : 'Mute video'}
-                >
-                  {isMuted ? (
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707A1 1 0 0112 5v14a1 1 0 01-1.707.707L5.586 15zM15 9l6 6m0-6l-6 6" />
-                    </svg>
-                  ) : (
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707A1 1 0 0112 5v14a1 1 0 01-1.707.707L5.586 15zM15 7a5 5 0 010 10" />
-                    </svg>
-                  )}
-                </button>
-              )} */}
             </div>
           </motion.div>
         </AnimatePresence>

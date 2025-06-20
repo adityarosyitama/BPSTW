@@ -68,6 +68,20 @@ export default function Home() {
         <div className="flex-1 text-center text-sm sm:text-lg md:text-xl">
           BALAI PELAYANAN SOSIAL TRESNA WERDHA
         </div>
+
+        {/*Mute/Unmute Button (Mobile Only)*/}
+        {isMuted && isMobile && (
+          <Image
+            onClick={toggleMute}
+            src="/mute.svg"
+            alt="mute logo"
+            width={24}
+            height={24}
+            className="absolute bottom-4 right-4 bg-white rounded-full p-1 focus:outline-none hover:bg-opacity-75 transition-all"
+            aria-label={isMuted ? 'Unmute video' : 'Mute video'}
+          >
+          </Image>
+        )}
       </motion.header>
 
       <div className={`h-[100vh] ${isVisible ? "pt-16" : "pt-10"}`} onClick={toggleMute}>
