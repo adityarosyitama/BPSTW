@@ -10,7 +10,7 @@ interface SplashScreenProps {
 
 const SplashScreen: React.FC<SplashScreenProps> = ({
     logoSrc,
-    duration = 3, // Default duration
+    duration = 3, // Default duration of 3 seconds
     onFadeComplete,
 }) => {
     const [visible, setVisible] = useState(true);

@@ -8,7 +8,7 @@ interface VideoSliderProps {
 const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls }) => {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
-  const [orientation, setOrientation] = useState<'landscape' | 'portrait' | null>(null);
+  // const [orientation, setOrientation] = useState<'landscape' | 'portrait' | null>(null);
   const startX = useRef(0);
   const dragDistance = useRef(0);
 
@@ -32,7 +32,7 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls }) => {
     if (!isDragging) return;
     setIsDragging(false);
 
-    const swipeThreshold = 50;
+    const swipeThreshold = 100;
     if (dragDistance.current > swipeThreshold && currentVideoIndex > 0) {
       setCurrentVideoIndex(currentVideoIndex - 1);
     } else if (dragDistance.current < -swipeThreshold && currentVideoIndex < videoUrls.length - 1) {
@@ -40,61 +40,39 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls }) => {
     }
   };
 
-  const handleVideoMetadata = (e: React.SyntheticEvent<HTMLVideoElement>) => {
-    const video = e.currentTarget;
-    const { videoWidth, videoHeight } = video;
-    setOrientation(videoWidth >= videoHeight ? 'landscape' : 'portrait');
-  };
+  // const handleVideoMetadata = (e: React.SyntheticEvent<HTMLVideoElement>) => {
+  //   const video = e.currentTarget;
+  //   const { videoWidth, videoHeight } = video;
+  //   setOrientation(videoWidth >= videoHeight ? 'landscape' : 'portrait');
+  // };
 
-  // Dynamic container styles based on orientation and screen size
+  // Simplified container styles
   const getContainerStyles = () => {
-    // Desktop styles (md and above)
-    const desktopStyles = {
-      landscape: {
-        maxHeight: '90vh',
-        width: 'auto',
-        margin: '0 auto',
-      },
-      portrait: {
-        height: '90vh',
-        maxWidth: '50vw',
-        margin: '0 auto',
-      },
-      default: {
-        paddingBottom: '56.25%',
-        margin: '0 auto',
-      },
+    const baseStyles = {
+      width: '100%',
+      height: '100%',
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+      margin: '0 auto',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
     };
 
-    // Mobile styles
-    const mobileStyles = {
-      landscape: {
-        height: '100vh',
-        width: 'auto',
-        maxWidth: '100vw',
-        margin: '0 auto',
-      },
-      portrait: {
-        width: '100vw',
-        height: 'auto',
-        maxHeight: '100vh',
-        margin: '0 auto',
-      },
-      default: {
-        width: '100vw',
-        height: '56.25vw',
-        maxHeight: '100vh',
-        margin: '0 auto',
-      },
-    };
-
-    // Return styles based on orientation
-    if (orientation === 'landscape') {
-      return window.innerWidth >= 768 ? desktopStyles.landscape : mobileStyles.landscape;
-    } else if (orientation === 'portrait') {
-      return window.innerWidth >= 768 ? desktopStyles.portrait : mobileStyles.portrait;
+    // Mobile-specific adjustments
+    if (window.innerWidth < 768) {
+      return {
+        ...baseStyles,
+        height: 'auto', // Allow height to adjust based on video aspect ratio
+        maxHeight: '100vh', // Ensure it doesn't exceed viewport height
+      };
     }
-    return window.innerWidth >= 768 ? desktopStyles.default : mobileStyles.default;
+
+    // Desktop styles
+    return {
+      ...baseStyles,
+      maxWidth: '80vw', // Limit width on larger screens for better aesthetics
+    };
   };
 
   return (
@@ -166,11 +144,12 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls }) => {
             <div className="relative w-full h-full flex items-center justify-center">
               <video
                 src={videoUrls[currentVideoIndex]}
-                onLoadedMetadata={handleVideoMetadata}
+                // onLoadedMetadata={handleVideoMetadata}
                 className="rounded-md shadow-lg object-contain max-w-full max-h-full"
                 autoPlay
                 loop
                 playsInline
+                preload="metadata"
               />
             </div>
           </motion.div>
