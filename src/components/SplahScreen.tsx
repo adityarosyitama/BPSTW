@@ -41,7 +41,7 @@ const SplashScreen: React.FC<SplashScreenProps> = ({
         <motion.div
             initial={{ opacity: 1 }}
             animate={{ opacity: visible ? 1 : 0 }}
-            transition={{ duration: 0.5 }} // Fade-out duration
+            transition={{ duration: 3 }} // Fade-out duration
             style={{
                 position: 'fixed',
                 top: 0,
@@ -59,7 +59,7 @@ const SplashScreen: React.FC<SplashScreenProps> = ({
                 animate={{
                     scale: [1, 1.2, 1], // Scale from 1 to 1.2 and back to 1
                     transition: {
-                        duration: 2, // Duration of one pulse cycle
+                        duration: 1.5, // Duration of one pulse cycle
                         repeat: Infinity, // Repeat indefinitely
                         ease: 'easeInOut', // Smooth easing
                     },
