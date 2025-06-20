@@ -29,7 +29,7 @@ export default function Home() {
     ? ["/videos/video1.webm", "/videos/video2.webm", "/videos/video3.webm"]
     : ["/videos/video1.mp4", "/videos/video2.mp4", "/videos/video3.mp4"];
 
-  const toggleMute = () => setIsMuted((prev) => !prev);
+  const toggleMute = () => setIsMuted(false);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     const threshold = 50;
@@ -37,6 +37,7 @@ export default function Home() {
     translateY.set(latest > threshold ? -100 : 0);
   });
 
+  console.log('mute',isMuted)
   return (
     <>
       <motion.header
