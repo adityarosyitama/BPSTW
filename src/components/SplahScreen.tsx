@@ -59,7 +59,7 @@ const SplashScreen: React.FC<SplashScreenProps> = ({
                 animate={{
                     scale: [1, 1.2, 1], // Scale from 1 to 1.2 and back to 1
                     transition: {
-                        duration: 1.5, // Duration of one pulse cycle
+                        duration: 2, // Duration of one pulse cycle
                         repeat: Infinity, // Repeat indefinitely
                         ease: 'easeInOut', // Smooth easing
                     },
