@@ -37,7 +37,7 @@ export default function Home() {
     translateY.set(latest > threshold ? -100 : 0);
   });
 
-  console.log('mute',isMuted)
+  console.log('mute', isMuted)
   return (
     <>
       <motion.header
@@ -122,36 +122,81 @@ export default function Home() {
         <div className="mx-auto flex max-w-6xl flex-col justify-between gap-8 md:flex-row">
           <div className="flex flex-2 flex-col gap-1 rounded-3xl border-4 border-green-500 bg-gray-500/50 p-5 backdrop-blur-sm">
             <h3 className="text-base font-semibold text-white md:text-lg">Balai Pelayanan Tresna Werdha Abiyoso</h3>
-            <h4 className="text-sm font-semibold text-white md:text-base">
-              Jl. Kasongan No.223, Kajen, Bangunjiwo, Kec. Kasihan, Kabupaten Bantul, Daerah Istimewa Yogyakarta 55184
-            </h4>
+            <a
+              href="https://maps.app.goo.gl/xR4oUJMiMLTKwACVA"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-2 gap-2 inline-flex items-center rounded-lg bg-blue-500 px-4 py-2 text-sm font-semibold text-white hover:bg-green-600 md:text-base"
+            >
+              <Image
+                src="/logo_google_maps.png"
+                alt="Lambada Logo"
+                width={24}
+                height={24}
+                className="object-contain"
+                priority
+              />
+              <h4 className="text-sm font-semibold text-white md:text-base">
+                Jl. Kaliurang, Km. 17, 5, Pakem, Yogyakarta, Area Sawah, Pakembinangun, Pakem, Sleman Regency, Special
+                Region of Yogyakarta 55582
+              </h4>
+            </a>
+            <h4 className="text-base font-semibold text-white md:text-lg">Nomor Telepon (0274) 895402</h4>
             <a
               href="https://wa.me/6282326067320"
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-2 inline-block rounded-lg bg-green-500 px-4 py-2 text-sm font-semibold text-white hover:bg-green-600 md:text-base"
+              className="mt-2 gap-2 inline-flex items-center rounded-lg bg-green-500 px-4 py-2 text-sm font-semibold text-white hover:bg-green-600 md:text-base"
             >
-              WhatsApp: 082326067320
+              <Image
+                src="/logo_whatsapp.png"
+                alt="Lambada Logo"
+                width={24}
+                height={24}
+                className="object-contain"
+                priority
+              />
+              <h4>WhatsApp: 082326067320</h4>
             </a>
           </div>
           <div className="flex flex-2 flex-col gap-1 rounded-3xl border-4 border-green-500 bg-gray-500/50 p-5 backdrop-blur-sm">
             <h3 className="text-base font-semibold text-white md:text-lg">Balai Pelayanan Tresna Werdha Budi Luhur</h3>
-            <h4 className="text-sm font-semibold text-white md:text-base">
-              Jl. Kaliurang, Km. 17, 5, Pakem, Yogyakarta, Area Sawah, Pakembinangun, Pakem, Sleman Regency, Special
-              Region of Yogyakarta 55582
-            </h4>
+            <a
+              href="https://maps.app.goo.gl/MJF4Qg63sfE4A7Qw7"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-2 gap-2 inline-flex items-center rounded-lg bg-blue-500 px-4 py-2 text-sm font-semibold text-white hover:bg-green-600 md:text-base"
+            >
+              <Image
+                src="/logo_google_maps.png"
+                alt="Lambada Logo"
+                width={24}
+                height={24}
+                className="object-contain"
+                priority
+              />
+              <h4 className="text-sm font-semibold text-white md:text-base">
+                Jl. Kasongan No.223, Kajen, Bangunjiwo, Kec. Kasihan, Kabupaten Bantul, Daerah Istimewa Yogyakarta 55184
+              </h4>
+            </a>
+            <h4 className="text-base font-semibold text-white md:text-lg">Nomor Telepon (0274) 895402</h4>
+
             <a
               href="https://wa.me/6282221278569"
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-2 inline-block rounded-lg bg-green-500 px-4 py-2 text-sm font-semibold text-white hover:bg-green-600 md:text-base"
+              className="mt-2 gap-2 inline-flex items-center rounded-lg bg-green-500 px-4 py-2 text-sm font-semibold text-white hover:bg-green-600 md:text-base"
             >
-              WhatsApp: 082221278569
+              <Image
+                src="/logo_whatsapp.png"
+                alt="Lambada Logo"
+                width={24}
+                height={24}
+                className="object-contain"
+                priority
+              />
+              <h4>WhatsApp: 082221278569</h4>
             </a>
-          </div>
-          <div className="flex flex-1 flex-col gap-1 rounded-3xl border-4 border-green-500 bg-gray-500/50 p-5 backdrop-blur-sm">
-            <h3 className="text-base font-semibold text-white md:text-lg">Nomor Telepon</h3>
-            <h4 className="text-sm font-semibold text-white md:text-base">(0274) 895402</h4>
           </div>
         </div>
       </footer>
