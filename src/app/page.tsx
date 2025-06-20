@@ -19,6 +19,10 @@ export default function Home() {
   const translateY = useMotionValue(0);
   const [isMuted, setIsMuted] = useState(true); // State for mute/unmute on mobile
 
+  const toggleMute = () => {
+    setIsMuted(false);
+  };
+
   useMotionValueEvent(scrollY, "change", (latest) => {
     if (latest > 50) {
       setIsMuted(false)
@@ -38,9 +42,11 @@ export default function Home() {
         initial={{ y: -100 }}
         animate={{ y: isVisible ? 0 : -100 }}
         transition={{ duration: 0.3 }}
+        onClick={toggleMute}
+        onDrag={toggleMute}
         className="fixed top-0 left-0 right-0 bg-green-500/50 bg-opacity-25 backdrop-blur-sm h-14 md:h-16 flex items-center justify-between text-white text-lg md:text-xl z-50 font-bold px-2 sm:px-4 "
       >
-        <div className="hidden md:flex gap-2 sm:gap-4">
+        <div className="hidden md:flex gap-2 sm:gap-4" >
           <Image
             src="/logo_dinsos_diy.png"
             alt="Home icon"
@@ -70,7 +76,7 @@ export default function Home() {
         </div>
       </motion.header>
       {/* VideoSlider with dynamic padding-top */}
-      <div className={isVisible ? "pt-16 h-[100vh]" : "pt-10 h-[100vh]"}>
+      <div className={isVisible ? "pt-16 h-[100vh]" : "pt-10 h-[100vh]"} onClick={toggleMute}>
         <VideoSlider
           videoUrls={[
             '/videos/video1.webm',
@@ -82,7 +88,7 @@ export default function Home() {
         />
       </div>
       <SlideIn>
-        <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8 py-8 px-4 max-w-6xl mx-auto">
+        <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8 py-8 px-4 max-w-6xl mx-auto" onClick={toggleMute} onDrag={toggleMute}>
           {/* Image on top for mobile, left for desktop */}
           <div className="flex-shrink-0">
             <Image
@@ -105,7 +111,7 @@ export default function Home() {
         </div>
       </SlideIn>
 
-      <footer className="py-8 px-4">
+      <footer className="py-8 px-4" onClick={toggleMute} onDrag={toggleMute}>
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between gap-8 ">
           <div className="flex flex-col gap-1 flex-2  border-4 border-green-500 rounded-3xl p-5 bg-gray-500/50 bg-opacity-25 backdrop-blur-sm">
             <h3 className="font-semibold text-white text-base md:text-lg">Balai Pelayanan Tresna Werdha Abiyoso</h3>

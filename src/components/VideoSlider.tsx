@@ -16,6 +16,7 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls, isMuted, setIsMute
   const isMobile = window.innerWidth < 768; // Simple mobile detection
 
   const handleThumbnailClick = (index: number) => {
+    setIsMuted(false)
     setCurrentVideoIndex(index);
   };
 
