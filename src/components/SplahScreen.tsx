@@ -48,7 +48,7 @@ const SplashScreen: React.FC<SplashScreenProps> = ({
                 left: 0,
                 width: '100%',
                 height: '100%',
-                backgroundColor: '#fff', // Or your desired background color
+                backgroundColor: '#777B7E', // Or your desired background color
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
