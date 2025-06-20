@@ -121,9 +121,9 @@ export default function Home() {
                 <Image
                   src="/logo_google_maps.png"
                   alt="Lambada Logo"
-                  width={30}
-                  height={30}
-                  className="object-contain"
+                  width={50}
+                  height={50}
+                  className="object-contain w-fit"
                   priority
                 />
               </div>
@@ -145,7 +145,7 @@ export default function Home() {
                   alt="Lambada Logo"
                   width={30}
                   height={30}
-                  className="object-contain"
+                  className="object-contain  w-fit"
                   priority
                 />
               </div>
@@ -164,9 +164,9 @@ export default function Home() {
                 <Image
                   src="/logo_google_maps.png"
                   alt="Lambada Logo"
-                  width={30}
-                  height={30}
-                  className="object-contain"
+                  width={50}
+                  height={50}
+                  className="object-contain  w-fit"
                   priority
                 />
               </div>
@@ -187,7 +187,7 @@ export default function Home() {
                   alt="Lambada Logo"
                   width={30}
                   height={30}
-                  className="object-contain"
+                  className="object-contain  w-fit"
                   priority
                 />
               </div>
