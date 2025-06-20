@@ -117,14 +117,16 @@ export default function Home() {
               rel="noopener noreferrer"
               className="mt-2 gap-2 inline-flex items-center rounded-lg bg-blue-500 px-4 py-2 text-sm font-semibold text-white hover:bg-green-600 md:text-base"
             >
-              <Image
-                src="/logo_google_maps.png"
-                alt="Lambada Logo"
-                width={24}
-                height={24}
-                className="object-contain"
-                priority
-              />
+              <div className="rounded-full bg-white p-1 inline-block">
+                <Image
+                  src="/logo_google_maps.png"
+                  alt="Lambada Logo"
+                  width={30}
+                  height={30}
+                  className="object-contain"
+                  priority
+                />
+              </div>
               <h4 className="text-sm font-semibold text-white md:text-base">
                 Jl. Kaliurang, Km. 17, 5, Pakem, Yogyakarta, Area Sawah, Pakembinangun, Pakem, Sleman Regency, Special
                 Region of Yogyakarta 55582
@@ -137,14 +139,16 @@ export default function Home() {
               rel="noopener noreferrer"
               className="mt-2 gap-2 inline-flex items-center rounded-lg bg-green-500 px-4 py-2 text-sm font-semibold text-white hover:bg-green-600 md:text-base"
             >
-              <Image
-                src="/logo_whatsapp.png"
-                alt="Lambada Logo"
-                width={24}
-                height={24}
-                className="object-contain"
-                priority
-              />
+              <div className="rounded-full bg-white inline-block">
+                <Image
+                  src="/logo_whatsapp.png"
+                  alt="Lambada Logo"
+                  width={30}
+                  height={30}
+                  className="object-contain"
+                  priority
+                />
+              </div>
               <h4>WhatsApp: 082326067320</h4>
             </a>
           </div>
@@ -156,34 +160,37 @@ export default function Home() {
               rel="noopener noreferrer"
               className="mt-2 gap-2 inline-flex items-center rounded-lg bg-blue-500 px-4 py-2 text-sm font-semibold text-white hover:bg-green-600 md:text-base"
             >
-              <Image
-                src="/logo_google_maps.png"
-                alt="Lambada Logo"
-                width={24}
-                height={24}
-                className="object-contain"
-                priority
-              />
+              <div className="rounded-full bg-white p-1 inline-block">
+                <Image
+                  src="/logo_google_maps.png"
+                  alt="Lambada Logo"
+                  width={30}
+                  height={30}
+                  className="object-contain"
+                  priority
+                />
+              </div>
               <h4 className="text-sm font-semibold text-white md:text-base">
                 Jl. Kasongan No.223, Kajen, Bangunjiwo, Kec. Kasihan, Kabupaten Bantul, Daerah Istimewa Yogyakarta 55184
               </h4>
             </a>
             <h4 className="text-base font-semibold text-white md:text-lg">Nomor Telepon (0274) 895402</h4>
-
             <a
               href="https://wa.me/6282221278569"
               target="_blank"
               rel="noopener noreferrer"
               className="mt-2 gap-2 inline-flex items-center rounded-lg bg-green-500 px-4 py-2 text-sm font-semibold text-white hover:bg-green-600 md:text-base"
             >
-              <Image
-                src="/logo_whatsapp.png"
-                alt="Lambada Logo"
-                width={24}
-                height={24}
-                className="object-contain"
-                priority
-              />
+              <div className="rounded-full bg-white inline-block">
+                <Image
+                  src="/logo_whatsapp.png"
+                  alt="Lambada Logo"
+                  width={30}
+                  height={30}
+                  className="object-contain"
+                  priority
+                />
+              </div>
               <h4>WhatsApp: 082221278569</h4>
             </a>
           </div>
