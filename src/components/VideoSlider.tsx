@@ -131,7 +131,7 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls }) => {
         onTouchMove={handleDragMove}
         onTouchEnd={handleDragEnd}
       >
-        <AnimatePresence mode="popLayout">
+        <AnimatePresence mode="wait">
           <motion.div
             key={currentVideoIndex}
             initial={{ opacity: 0, x: dragDistance.current < 0 ? 50 : -50 }}
