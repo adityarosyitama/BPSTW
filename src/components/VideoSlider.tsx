@@ -4,11 +4,11 @@ import Video from 'next-video';
 
 interface VideoSliderProps {
   videoUrls: string[];
-  // isMuted: boolean;
+  isMuted: boolean;
   isMobile: boolean;
 }
 
-const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls, isMobile }) => {
+const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls, isMuted, isMobile }) => {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   // const [orientation, setOrientation] = useState<'landscape' | 'portrait' | null>(null);
@@ -153,17 +153,18 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls, isMobile }) => {
                   loop
                   playsInline
                   preload="metadata"
-                // muted={isMuted}
+                  // muted={isMuted}
                 />
               ) : (
-                <video
-                  src={videoUrls[currentVideoIndex]}
-                  // onLoadedMetadata={handleVideoMetadata}
-                  className="rounded-md shadow-lg object-contain max-w-full max-h-full"
-                  autoPlay
-                  loop
-                  playsInline
-                />
+              <video
+                src={videoUrls[currentVideoIndex]}
+                // onLoadedMetadata={handleVideoMetadata}
+                className="rounded-md shadow-lg object-contain max-w-full max-h-full"
+                autoPlay
+                loop
+                muted={isMobile ? isMuted : false} // Muted on mobile, unmuted on desktop
+                playsInline
+              />
               )}
             </div>
           </motion.div>
