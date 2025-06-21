@@ -4,6 +4,7 @@ import Video from 'next-video';
 
 interface VideoSliderProps {
   videoUrls: string[];
+  // isMuted: boolean;
   isMobile: boolean;
 }
 
@@ -76,6 +77,11 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls, isMobile }) => {
 
   const getVideoStyles = () => {
     const baseStyles = {
+      // width: 'auto',
+      // height: '100%',
+      // maxWidth: '100%',
+      // maxHeight: '100vh',
+      objectFit: 'contain' as const,
       borderRadius: '0.375rem',
       boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
     };
@@ -87,13 +93,13 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls, isMobile }) => {
         // Portrait video: limit width to avoid stretching
         return {
           ...baseStyles,
-          maxWidth: isMobile ? '100%' : '30%',
+          maxWidth: isMobile?'100%':'30%',
         };
       } else {
         // Landscape video: use full available width
         return {
           ...baseStyles,
-          maxWidth: isMobile ? '100%' : '100%',
+          maxWidth: isMobile?'100%':'100%',
         };
       }
     }
@@ -166,13 +172,14 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls, isMobile }) => {
 
             {/* Video */}
             <div className="relative w-full h-full flex items-center justify-center">
+
               <Video
-                controls={false}
                 src={videoUrls[currentVideoIndex]}
                 autoPlay
                 loop
                 playsInline
                 preload="metadata"
+                // muted={isMuted}
                 style={getVideoStyles()}
                 onLoadedMetadata={handleVideoMetadata}
               />
