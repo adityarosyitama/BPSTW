@@ -4,11 +4,11 @@ import Video from 'next-video';
 
 interface VideoSliderProps {
   videoUrls: string[];
-  isMuted: boolean;
+  // isMuted: boolean;
   isMobile: boolean;
 }
 
-const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls, isMuted, isMobile }) => {
+const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls, isMobile }) => {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [videoDimensions, setVideoDimensions] = useState<{ width: number; height: number } | null>(null);
@@ -81,7 +81,7 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls, isMuted, isMobile 
       // height: '100%',
       // maxWidth: '100%',
       // maxHeight: '100vh',
-      objectFit: 'contain' as const,
+      // objectFit: 'contain' as const,
       borderRadius: '0.375rem',
       boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
     };
@@ -93,13 +93,13 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls, isMuted, isMobile 
         // Portrait video: limit width to avoid stretching
         return {
           ...baseStyles,
-          maxWidth: '30%',
+          maxWidth: isMobile?'100%':'30%',
         };
       } else {
         // Landscape video: use full available width
         return {
           ...baseStyles,
-          maxWidth: '100%',
+          maxWidth: isMobile?'100%':'100%',
         };
       }
     }
@@ -172,7 +172,7 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls, isMuted, isMobile 
 
             {/* Video */}
             <div className="relative w-full h-full flex items-center justify-center">
-              {isMobile ? (
+              {/* {isMobile ? (
                 <video
                   src={videoUrls[currentVideoIndex]}
                   onLoadedMetadata={handleVideoMetadata}
@@ -189,11 +189,20 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls, isMuted, isMobile 
                   loop
                   playsInline
                   preload="metadata"
-                  muted={isMuted}
                   style={getVideoStyles()}
                   onLoadedMetadata={handleVideoMetadata}
                 />
-              )}
+              )} */}
+              <Video
+                src={videoUrls[currentVideoIndex]}
+                autoPlay
+                loop
+                playsInline
+                preload="metadata"
+                // muted={isMuted}
+                style={getVideoStyles()}
+                onLoadedMetadata={handleVideoMetadata}
+              />
             </div>
           </motion.div>
         </AnimatePresence>
