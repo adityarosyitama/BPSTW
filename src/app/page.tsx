@@ -46,7 +46,7 @@ export default function Home() {
     />;
   }
   return (
-    <div>
+    <div onClick={toggleMute}>
       <motion.header
         style={{ y: translateY }}
         initial={{ y: -100 }}
