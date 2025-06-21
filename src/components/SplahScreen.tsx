@@ -13,15 +13,29 @@ const SplashScreen: React.FC<SplashScreenProps> = ({
     duration = 3, // Default duration of 3 seconds
     onFadeComplete,
 }) => {
-    const [visible, setVisible] = useState(true);
+    const [visible, setVisible] = useState(false);
 
     useEffect(() => {
-        const timer = setTimeout(() => {
-            setVisible(false);
-        }, duration * 1000);
+        // Check if splash screen has been shown before
+        const hasSeenSplash = localStorage.getItem('hasSeenSplash');
+        if (!hasSeenSplash) {
+            setVisible(true); // Show splash screen if not seen
+        } else if (onFadeComplete) {
+            onFadeComplete(); // Skip splash screen and trigger callback
+        }
+    }, [onFadeComplete]);
 
-        return () => clearTimeout(timer);
-    }, [duration]);
+    useEffect(() => {
+        if (visible) {
+            const timer = setTimeout(() => {
+                setVisible(false);
+                // Set flag in localStorage after splash screen fades out
+                localStorage.setItem('hasSeenSplash', 'true');
+            }, duration * 1000);
+
+            return () => clearTimeout(timer);
+        }
+    }, [visible, duration]);
 
     useEffect(() => {
         if (!visible && onFadeComplete) {
@@ -34,9 +48,8 @@ const SplashScreen: React.FC<SplashScreenProps> = ({
     }, [visible, onFadeComplete]);
 
     if (!visible) {
-        return null; // Don't render the splash screen after it fades out
+        return null; // Don't render the splash screen if not visible
     }
-
     return (
         <motion.div
             initial={{ opacity: 1 }}
@@ -70,7 +83,7 @@ const SplashScreen: React.FC<SplashScreenProps> = ({
                     alt="App Logo"
                     width={200} // Replace with actual width in pixels
                     height={100} // Replace with actual height in pixels
-                    style={{ maxWidth: '80%', maxHeight: '80%' }}
+                    style={{ maxWidth: '100%', maxHeight: '100%' }}
                 />
             </motion.div>
         </motion.div>

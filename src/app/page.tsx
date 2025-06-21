@@ -15,7 +15,7 @@ const VideoSlider = dynamic(() => import("../components/VideoSlider"), {
 export default function Home() {
   const { scrollY } = useScroll();
   const [isVisible, setIsVisible] = useState(true);
-    // const [isMuted, setIsMuted] = useState(true);
+  // const [isMuted, setIsMuted] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [showSplash, setShowSplash] = useState(true);
   const translateY = useMotionValue(0);
@@ -31,7 +31,7 @@ export default function Home() {
     ? ["/videos/video1.webm", "/videos/video2.webm", "/videos/video3.webm"]
     : ["/videos/video1.mp4", "/videos/video2.mp4", "/videos/video3.mp4"];
 
-      // const toggleMute = () => setIsMuted(false);
+  // const toggleMute = () => setIsMuted(false);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     const threshold = 50;
@@ -75,7 +75,7 @@ export default function Home() {
         <h1 className="flex-1 text-center text-sm sm:text-lg md:text-xl">
           BALAI PELAYANAN SOSIAL TRESNA WERDHA
         </h1>
-                {/*Mute/Unmute Button (Mobile Only)*/}
+        {/*Mute/Unmute Button (Mobile Only)*/}
         {/* {isMuted && isMobile && (
           <Image
             onClick={toggleMute}
@@ -91,7 +91,7 @@ export default function Home() {
       </motion.header>
 
       <div className={`h-[100vh] ${isVisible ? "pt-16" : "pt-10"}`}>
-        <VideoSlider videoUrls={videoUrls} isMobile={isMobile}/>
+        <VideoSlider videoUrls={videoUrls} isMobile={isMobile} />
       </div>
 
       <SlideIn>

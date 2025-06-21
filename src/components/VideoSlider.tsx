@@ -153,17 +153,17 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls, isMobile }) => {
                   loop
                   playsInline
                   preload="metadata"
-                  // muted={isMuted}
+                // muted={isMuted}
                 />
               ) : (
-              <video
-                src={videoUrls[currentVideoIndex]}
-                // onLoadedMetadata={handleVideoMetadata}
-                className="rounded-md shadow-lg object-contain max-w-full max-h-full"
-                autoPlay
-                loop
-                playsInline
-              />
+                <video
+                  src={videoUrls[currentVideoIndex]}
+                  // onLoadedMetadata={handleVideoMetadata}
+                  className="rounded-md shadow-lg object-contain max-w-full max-h-full"
+                  autoPlay
+                  loop
+                  playsInline
+                />
               )}
             </div>
           </motion.div>
