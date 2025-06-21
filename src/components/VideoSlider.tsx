@@ -172,7 +172,27 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls, isMobile }) => {
 
             {/* Video */}
             <div className="relative w-full h-full flex items-center justify-center">
-
+              {/* {isMobile ? (
+                <video
+                  src={videoUrls[currentVideoIndex]}
+                  onLoadedMetadata={handleVideoMetadata}
+                  className="rounded-md shadow-lg object-contain max-w-full max-h-full"
+                  autoPlay
+                  loop
+                  muted={isMuted}
+                  playsInline
+                />
+              ) : (
+                <Video
+                  src={videoUrls[currentVideoIndex]}
+                  autoPlay
+                  loop
+                  playsInline
+                  preload="metadata"
+                  style={getVideoStyles()}
+                  onLoadedMetadata={handleVideoMetadata}
+                />
+              )} */}
               <Video
                 src={videoUrls[currentVideoIndex]}
                 autoPlay
