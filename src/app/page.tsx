@@ -32,7 +32,7 @@ export default function Home() {
   //   ? ["/videos/video1.webm", "/videos/video2.webm", "/videos/video3.webm"]
   //   : ["/videos/video1.mp4", "/videos/video2.mp4", "/videos/video3.mp4"];
 
-  const videoUrls = ["/videos/video1.mp4", "/videos/video2.mp4"];
+  const videoUrls = ["/videos/video1.mp4", "/videos/video2.mp4", "/videos/video3.mp4"];
 
   const toggleMute = () => setIsMuted(false);
 
