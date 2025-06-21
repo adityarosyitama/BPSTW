@@ -15,6 +15,7 @@ const VideoSlider = dynamic(() => import("../components/VideoSlider"), {
 export default function Home() {
   const { scrollY } = useScroll();
   const [isVisible, setIsVisible] = useState(true);
+    // const [isMuted, setIsMuted] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [showSplash, setShowSplash] = useState(true);
   const translateY = useMotionValue(0);
@@ -30,6 +31,7 @@ export default function Home() {
     ? ["/videos/video1.webm", "/videos/video2.webm", "/videos/video3.webm"]
     : ["/videos/video1.mp4", "/videos/video2.mp4", "/videos/video3.mp4"];
 
+      // const toggleMute = () => setIsMuted(false);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     const threshold = 50;
@@ -44,7 +46,7 @@ export default function Home() {
     />;
   }
   return (
-    <>
+    <div>
       <motion.header
         style={{ y: translateY }}
         initial={{ y: -100 }}
@@ -70,13 +72,26 @@ export default function Home() {
             priority
           />
         </div>
-        <div className="flex-1 text-center text-sm sm:text-lg md:text-xl">
+        <h1 className="flex-1 text-center text-sm sm:text-lg md:text-xl">
           BALAI PELAYANAN SOSIAL TRESNA WERDHA
-        </div>
+        </h1>
+                {/*Mute/Unmute Button (Mobile Only)*/}
+        {/* {isMuted && isMobile && (
+          <Image
+            onClick={toggleMute}
+            src="/mute.svg"
+            alt="mute logo"
+            width={24}
+            height={24}
+            className="absolute bottom-4 right-4 bg-white rounded-full p-1 focus:outline-none hover:bg-opacity-75 transition-all"
+            aria-label={isMuted ? 'Unmute video' : 'Mute video'}
+          >
+          </Image>
+        )} */}
       </motion.header>
 
       <div className={`h-[100vh] ${isVisible ? "pt-16" : "pt-10"}`}>
-        <VideoSlider videoUrls={videoUrls} />
+        <VideoSlider videoUrls={videoUrls} isMobile={isMobile}/>
       </div>
 
       <SlideIn>
@@ -93,11 +108,11 @@ export default function Home() {
             />
           </div>
           <div className="flex flex-col gap-2 rounded-3xl border-4 border-green-500 bg-gray-500/50 p-5 backdrop-blur-sm">
-            <h2 className="text-2xl font-bold text-white md:text-3xl">
+            <h3 className="text-2xl font-bold text-white md:text-3xl">
               Kepala Balai Pelayanan Sosial Tresna Werdha
-            </h2>
-            <h2 className="text-2xl font-bold text-white md:text-3xl">(BPSTW)</h2>
-            <h3 className="text-3xl font-semibold text-white md:text-4xl">Tuty Amalia, SH., M.Si</h3>
+            </h3>
+            <h1 className="text-2xl font-bold text-white md:text-3xl">(BPSTW)</h1>
+            <h2 className="text-3xl font-semibold text-white md:text-4xl">Tuty Amalia, SH., M.Si</h2>
             <p className="text-base text-gray-200 md:text-lg">
               Balai Pelayanan Sosial Tresna Werdha Dinas Sosial Daerah Istimewa Yogyakarta adalah salah satu Unit
               Pelaksana Teknis (UPT) yang ada di bawah Dinas Sosial DIY kami diberi tugas sebagai unit yang melakukan
@@ -196,6 +211,6 @@ export default function Home() {
           </div>
         </div>
       </footer>
-    </>
+    </div>
   );
 }

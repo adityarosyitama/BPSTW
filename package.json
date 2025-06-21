@@ -12,6 +12,7 @@
     "autoprefixer": "^10.4.21",
     "framer-motion": "^12.18.1",
     "next": "15.3.3",
+    "next-video": "^2.2.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },

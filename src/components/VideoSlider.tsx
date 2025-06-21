@@ -1,11 +1,14 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Video from 'next-video';
 
 interface VideoSliderProps {
   videoUrls: string[];
+  // isMuted: boolean;
+  isMobile: boolean;
 }
 
-const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls }) => {
+const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls, isMobile }) => {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   // const [orientation, setOrientation] = useState<'landscape' | 'portrait' | null>(null);
@@ -74,7 +77,7 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls }) => {
       maxWidth: '80vw', // Limit width on larger screens for better aesthetics
     };
   };
-
+  console.log(isMobile)
   return (
     <div className="flex flex-col items-center w-full h-full overflow-hidden mt-2">
       {/* Thumbnails (Mobile) */}
@@ -142,6 +145,17 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls }) => {
 
             {/* Video */}
             <div className="relative w-full h-full flex items-center justify-center">
+              {isMobile ? (
+                <Video
+                  src={videoUrls[currentVideoIndex]}
+                  autoPlay
+                  style={{ objectFit: 'cover' }}
+                  loop
+                  playsInline
+                  preload="metadata"
+                  // muted={isMuted}
+                />
+              ) : (
               <video
                 src={videoUrls[currentVideoIndex]}
                 // onLoadedMetadata={handleVideoMetadata}
@@ -149,8 +163,8 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls }) => {
                 autoPlay
                 loop
                 playsInline
-                preload="metadata"
               />
+              )}
             </div>
           </motion.div>
         </AnimatePresence>
