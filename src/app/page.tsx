@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import SlideIn from "@/components/SlideInLR";
 import SplashScreen from "@/components/SplahScreen";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const VideoSlider = dynamic(() => import("../components/VideoSlider"), {
   ssr: false,
@@ -31,7 +32,7 @@ export default function Home() {
   //   ? ["/videos/video1.webm", "/videos/video2.webm", "/videos/video3.webm"]
   //   : ["/videos/video1.mp4", "/videos/video2.mp4", "/videos/video3.mp4"];
 
-  const videoUrls = ["/videos/video1.mp4", "/videos/video2.mp4", "/videos/video3.mp4"];
+  const videoUrls = ["/videos/video1.mp4", "/videos/video2.mp4"];
 
   const toggleMute = () => setIsMuted(false);
 
@@ -213,6 +214,7 @@ export default function Home() {
           </div>
         </div>
       </footer>
+      <SpeedInsights />
     </div>
   );
 }
