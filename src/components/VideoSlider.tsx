@@ -11,7 +11,7 @@ interface VideoSliderProps {
 const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls, isMuted, isMobile }) => {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
-  // const [orientation, setOrientation] = useState<'landscape' | 'portrait' | null>(null);
+  const [videoDimensions, setVideoDimensions] = useState<{ width: number; height: number } | null>(null);
   const startX = useRef(0);
   const dragDistance = useRef(0);
 
@@ -43,13 +43,12 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls, isMuted, isMobile 
     }
   };
 
-  // const handleVideoMetadata = (e: React.SyntheticEvent<HTMLVideoElement>) => {
-  //   const video = e.currentTarget;
-  //   const { videoWidth, videoHeight } = video;
-  //   setOrientation(videoWidth >= videoHeight ? 'landscape' : 'portrait');
-  // };
+  const handleVideoMetadata = (e: React.SyntheticEvent<HTMLVideoElement>) => {
+    const video = e.currentTarget;
+    const { videoWidth, videoHeight } = video;
+    setVideoDimensions({ width: videoWidth, height: videoHeight });
+  };
 
-  // Simplified container styles
   const getContainerStyles = () => {
     const baseStyles = {
       width: '100%',
@@ -62,22 +61,52 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls, isMuted, isMobile 
       justifyContent: 'center',
     };
 
-    // Mobile-specific adjustments
     if (window.innerWidth < 768) {
       return {
         ...baseStyles,
-        height: 'auto', // Allow height to adjust based on video aspect ratio
-        maxHeight: '100vh', // Ensure it doesn't exceed viewport height
+        height: 'auto',
+        maxHeight: '100vh',
       };
     }
 
-    // Desktop styles
     return {
       ...baseStyles,
-      maxWidth: '80vw', // Limit width on larger screens for better aesthetics
+      maxWidth: '80vw',
     };
   };
-  console.log(isMobile)
+
+  const getVideoStyles = () => {
+    const baseStyles = {
+      // width: 'auto',
+      // height: '100%',
+      // maxWidth: '100%',
+      // maxHeight: '100vh',
+      objectFit: 'contain' as const,
+      borderRadius: '0.375rem',
+      boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+    };
+
+    // Adjust styles based on video dimensions if available
+    if (videoDimensions) {
+      const aspectRatio = videoDimensions.width / videoDimensions.height;
+      if (aspectRatio < 1) {
+        // Portrait video: limit width to avoid stretching
+        return {
+          ...baseStyles,
+          maxWidth: '30%',
+        };
+      } else {
+        // Landscape video: use full available width
+        return {
+          ...baseStyles,
+          maxWidth: '100%',
+        };
+      }
+    }
+
+    return baseStyles;
+  };
+
   return (
     <div className="flex flex-col items-center w-full h-full overflow-hidden mt-2">
       {/* Thumbnails (Mobile) */}
@@ -85,8 +114,7 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls, isMuted, isMobile 
         {videoUrls.map((url, index) => (
           <motion.div
             key={index}
-            className={`cursor-pointer border-4 ${currentVideoIndex === index ? 'border-white' : 'border-transparent'
-              } rounded-md overflow-hidden flex-shrink-0 w-24 h-16`}
+            className={`cursor-pointer border-4 ${currentVideoIndex === index ? 'border-white' : 'border-transparent'} rounded-md overflow-hidden flex-shrink-0 w-24 h-16`}
             onClick={() => handleThumbnailClick(index)}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -127,8 +155,7 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls, isMuted, isMobile 
               {videoUrls.map((url, index) => (
                 <motion.div
                   key={index}
-                  className={`cursor-pointer border-4 ${currentVideoIndex === index ? 'border-white' : 'border-transparent'
-                    } rounded-md overflow-hidden flex-shrink-0 w-24 h-16`}
+                  className={`cursor-pointer border-4 ${currentVideoIndex === index ? 'border-white' : 'border-transparent'} rounded-md overflow-hidden flex-shrink-0 w-24 h-16`}
                   onClick={() => handleThumbnailClick(index)}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -146,25 +173,26 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls, isMuted, isMobile 
             {/* Video */}
             <div className="relative w-full h-full flex items-center justify-center">
               {isMobile ? (
+                <video
+                  src={videoUrls[currentVideoIndex]}
+                  onLoadedMetadata={handleVideoMetadata}
+                  className="rounded-md shadow-lg object-contain max-w-full max-h-full"
+                  autoPlay
+                  loop
+                  muted={isMuted}
+                  playsInline
+                />
+              ) : (
                 <Video
                   src={videoUrls[currentVideoIndex]}
                   autoPlay
-                  style={{ objectFit: 'cover' }}
                   loop
                   playsInline
                   preload="metadata"
-                  // muted={isMuted}
+                  muted={isMuted}
+                  style={getVideoStyles()}
+                  onLoadedMetadata={handleVideoMetadata}
                 />
-              ) : (
-              <video
-                src={videoUrls[currentVideoIndex]}
-                // onLoadedMetadata={handleVideoMetadata}
-                className="rounded-md shadow-lg object-contain max-w-full max-h-full"
-                autoPlay
-                loop
-                muted={isMuted} // Muted on mobile, unmuted on desktop
-                playsInline
-              />
               )}
             </div>
           </motion.div>
