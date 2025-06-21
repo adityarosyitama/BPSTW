@@ -162,7 +162,7 @@ const VideoSlider: React.FC<VideoSliderProps> = ({ videoUrls, isMuted, isMobile 
                 className="rounded-md shadow-lg object-contain max-w-full max-h-full"
                 autoPlay
                 loop
-                muted={isMobile ? isMuted : false} // Muted on mobile, unmuted on desktop
+                muted={isMuted} // Muted on mobile, unmuted on desktop
                 playsInline
               />
               )}
